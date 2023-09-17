@@ -6,7 +6,7 @@ class LoginForm(forms.Form):
     password= forms.CharField(widget=forms.PasswordInput)
  
  # USer Registration and User Profiles
-class UserRegistrationForm(forms.Form):
+class UserRegistrationForm(forms.ModelForm):
     password= forms.CharField(label='Password', widget= forms.PasswordInput)
     password2= forms.CharField(label='Repeat Password', widget= forms.PasswordInput)
 

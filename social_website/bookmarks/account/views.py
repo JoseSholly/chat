@@ -38,18 +38,16 @@ def dashboard(request):
                     {'section': 'dashboard'})
 
 def register(request):
-    if request.method== 'POST':
-        user_form= UserRegistrationForm(request.POST)
+    if request.method == 'POST':
+        user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
-            # Create a new user object but avoiding saving it yet
-            new_user= user_form.save(commit=False)
-            # Set chosen paasword
-            new_user.set_passsword(user_form.cleaned_data['password'])
-            # Svae the new user
+            # Create a new user object but avoid saving it yet
+            new_user = user_form.save(commit=False)
+            # Set the chosen password
+            new_user.set_password(user_form.cleaned_data['password'])
+            # Save the User object
             new_user.save()
-            return render(request, 'account/register', {'new_user':new_user})
-        else:
-            user_form= UserRegistrationForm()
-        return render (request, 'account/register.html', {'user_form': user_form})
-
-        
+            return render(request, 'account/register_done.html',{'new_user': new_user})
+    else:
+        user_form = UserRegistrationForm()
+    return render(request, 'account/register.html',{'user_form': user_form})
