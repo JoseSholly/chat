@@ -145,5 +145,12 @@ EMAIL_USE_TLS = True
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
-AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend', 'account.authentication.EmailAuthBackend',
-                           ]
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend', 
+    'account.authentication.EmailAuthBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+    ]
+
+SOCIAL_AUTH_FACEBOOK_KEY= os.getenv("AUTH_FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET= os.getenv("AUTH_FACEBOOK_SECRET")
+SOCIAL_AUTH_FACEBOOK_SCOPE= os.getenv("AUTH_FACEBOOK_SCOPE")
