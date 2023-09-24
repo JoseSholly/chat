@@ -149,7 +149,8 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend', 
     'account.authentication.EmailAuthBackend',
     'social_core.backends.facebook.FacebookOAuth2',
-    'social_core.backends.twitter.TwitterOAuth'
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.google.GoogleOAuth2'
     ]
 
 SOCIAL_AUTH_FACEBOOK_KEY= os.getenv("AUTH_FACEBOOK_KEY")
@@ -158,3 +159,8 @@ SOCIAL_AUTH_FACEBOOK_SECRET= os.getenv("AUTH_FACEBOOK_SECRET")
 
 SOCIAL_AUTH_TWITTER_KEY= os.getenv('TWITTER_API_KEY')
 SOCIAL_AUTH_TWITTER_SECRET= os.getenv('TWITTER_KEY_SECRET')
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY= os.getenv('GOOGLE_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET= os.getenv('GOOGLE_CLIENT_SECRET')
+# SOCIAL_AUTH_RAISE_EXCEPTIONS = False
