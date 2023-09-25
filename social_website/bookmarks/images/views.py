@@ -18,7 +18,7 @@ def image_created(request):
             # Assign the current user to the item
             new_image.user= request.user
             new_image.save()
-            messages.success(request, 'Image added successfu;ly')
+            messages.success(request, 'Image added successfully')
             # Redirect to new created item detail view
             return redirect(new_image.get_absolute_url())
     else:
