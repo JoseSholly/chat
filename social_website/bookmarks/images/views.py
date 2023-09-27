@@ -4,7 +4,7 @@ from django.contrib import messages
 from .forms import ImageCreateForm
 from django.shortcuts import get_object_or_404
 from .models import Image
-from django.views.decorators.http import request_Post
+from django.views.decorators.http import require_POST
 from django.http import JsonResponse
 
 # Create your views here.
@@ -40,10 +40,10 @@ def image_detail(request, id, slug):
 
 
 @login_required
-@request_Post
+@require_POST
 def image_like(request):
     image_id= request.POST.get('id')
-    action= request.POST.grt('action')
+    action= request.POST.get('action')
     if image_id and action:
         try:
             image= Image.objects.get(id=image_id)
