@@ -1,55 +1,57 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import ImageCreateForm
 from django.shortcuts import get_object_or_404
-from .models import Image
-from django.views.decorators.http import require_POST
 from django.http import JsonResponse
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.decorators.http import require_POST
 from django.http import HttpResponse
+from django.core.paginator import Paginator, EmptyPage, \
+                                  PageNotAnInteger
+from .forms import ImageCreateForm
+from .models import Image
 
-# Create your views here.
+
 @login_required
 def image_created(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         # form is sent
-        form = ImageCreateForm(data= request.POST)
+        form = ImageCreateForm(data=request.POST)
         if form.is_valid():
             # form data is valid
-            cd= form.cleaned_data
-            new_image= form.save(commit=False)
-            # Assign the current user to the item
-            new_image.user= request.user
+            cd = form.cleaned_data
+            new_image = form.save(commit=False)
+            # assign current user to the item
+            new_image.user = request.user
             new_image.save()
             messages.success(request, 'Image added successfully')
-            # Redirect to new created item detail view
+            # redirect to new created image detail view
             return redirect(new_image.get_absolute_url())
     else:
-        # build form with data provided by the bookmarks via GET
-        form= ImageCreateForm(data= request.GET)
-    return render(request, 'images/image/create.html',
-                    {'section': 'images',
-                    'form': form})
+        # build form with data provided by the bookmarklet via GET
+        form = ImageCreateForm(data=request.GET)
+    return render(request,
+                  'images/image/create.html',
+                  {'section': 'images',
+                   'form': form})
 
 
 def image_detail(request, id, slug):
-    image= get_object_or_404(Image, id=id, slug=slug)
-    return render(request, 'images/image/detail.html',
+    image = get_object_or_404(Image, id=id, slug=slug)
+    return render(request,
+                  'images/image/detail.html',
                   {'section': 'images',
                    'image': image})
-
 
 
 @login_required
 @require_POST
 def image_like(request):
-    image_id= request.POST.get('id')
-    action= request.POST.get('action')
+    image_id = request.POST.get('id')
+    action = request.POST.get('action')
     if image_id and action:
         try:
-            image= Image.objects.get(id=image_id)
-            if action=='like':
+            image = Image.objects.get(id=image_id)
+            if action == 'like':
                 image.users_like.add(request.user)
             else:
                 image.users_like.remove(request.user)
@@ -61,30 +63,28 @@ def image_like(request):
 
 @login_required
 def image_list(request):
-    images= Image.objects.all()
-    paginator= Paginator(images, 8)
-    page= request.GET.get('page')
-    images_only= request.GET.get('images_only')
+    images = Image.objects.all()
+    paginator = Paginator(images, 8)
+    page = request.GET.get('page')
+    images_only = request.GET.get('images_only')
     try:
-        images= paginator.page(page)
+        images = paginator.page(page)
     except PageNotAnInteger:
-        # if page is not an integer deliver the first page
-        images= paginator.page(1)
+        # If page is not an integer deliver the first page
+        images = paginator.page(1)
     except EmptyPage:
         if images_only:
-            # if AJAX request and page out of range
+            # If AJAX request and page out of range
             # return an empty page
-            return HttpResponse
-        # if page out of range return last page of results
-        images= paginator.page(paginator.num_pages)
+            return HttpResponse('')
+        # If page out of range return last page of results
+        images = paginator.page(paginator.num_pages)
     if images_only:
-        return render(request, 
+        return render(request,
                       'images/image/list_images.html',
                       {'section': 'images',
                        'images': images})
-    
-    return render(request, 
+    return render(request,
                   'images/image/list.html',
-                  {'section': 'images',
+                   {'section': 'images',
                     'images': images})
-    
