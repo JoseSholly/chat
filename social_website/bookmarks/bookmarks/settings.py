@@ -125,7 +125,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -148,44 +148,44 @@ EMAIL_USE_TLS = True
 
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend', 
+    'django.contrib.auth.backends.ModelBackend',
     'account.authentication.EmailAuthBackend',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.google.GoogleOAuth2'
-    ]
+]
 
-SOCIAL_AUTH_FACEBOOK_KEY= os.getenv("AUTH_FACEBOOK_KEY")
-SOCIAL_AUTH_FACEBOOK_SECRET= os.getenv("AUTH_FACEBOOK_SECRET")
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("AUTH_FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv("AUTH_FACEBOOK_SECRET")
 # SOCIAL_AUTH_FACEBOOK_SCOPE= [os.getenv("AUTH_FACEBOOK_SCOPE")]
 
-SOCIAL_AUTH_TWITTER_KEY= os.getenv('TWITTER_API_KEY')
-SOCIAL_AUTH_TWITTER_SECRET= os.getenv('TWITTER_KEY_SECRET')
+SOCIAL_AUTH_TWITTER_KEY = os.getenv('TWITTER_API_KEY')
+SOCIAL_AUTH_TWITTER_SECRET = os.getenv('TWITTER_KEY_SECRET')
 
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY= os.getenv('GOOGLE_CLIENT_ID')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET= os.getenv('GOOGLE_CLIENT_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('GOOGLE_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
 # SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 
 
 SOCIAL_AUTH_PIPELINE = [
- 'social_core.pipeline.social_auth.social_details',
- 'social_core.pipeline.social_auth.social_uid',
- 'social_core.pipeline.social_auth.auth_allowed',
- 'social_core.pipeline.social_auth.social_user',
- 'social_core.pipeline.user.get_username',
- 'social_core.pipeline.user.create_user',
- 'account.authentication.create_profile',
- 'social_core.pipeline.social_auth.associate_user',
- 'social_core.pipeline.social_auth.load_extra_data',
- 'social_core.pipeline.user.user_details',
- 
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'account.authentication.create_profile',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+
 ]
 
-ABSOLUTE_URL_OVERRIDES = { 
+ABSOLUTE_URL_OVERRIDES = {
     'auth.user': lambda u: reverse_lazy('user_detail',
                                         args=[u.username])
 }
