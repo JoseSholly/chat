@@ -9,7 +9,7 @@ from .models import Profile
 from django.contrib import messages
 
 # Modules used for Creating list and detail views for user profile
-from django.shortcuts import get_objects_or_404
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -91,7 +91,7 @@ def user_list(request):
 
 @login_required
 def user_detail(request, username):
-    user= get_objects_or_404(User, 
+    user= get_object_or_404(User, 
                              username=username,
                              is_active=True)
     return render(request,

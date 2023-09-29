@@ -1,8 +1,20 @@
 from django.db import models
+from django.urls import reverse
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
+from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
+
+
+
+
+
+
+
+
 class Profile(models.Model):
     user= models.OneToOneField(settings.AUTH_USER_MODEL,
                                on_delete=models.CASCADE)
@@ -10,7 +22,7 @@ class Profile(models.Model):
     photo= models.ImageField(upload_to='user/%Y/%m/%d/', blank=True)
 
     def __str__(self):
-        return f"Profile of {self.user.username}"
+        return f"Profile of {self.username,}"
 
 
 class Contact(models.Model):
@@ -34,6 +46,7 @@ class Contact(models.Model):
 
 
 user_model = get_user_model()
+
 user_model.add_to_class('following',
                         models.ManyToManyField('self',
                            through=Contact,
