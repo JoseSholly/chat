@@ -5,7 +5,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 # Create your models here.
 
 
-class Actions(models.Model):
+class Action(models.Model):
     user= models.ForeignKey('auth.user',
                             related_name='actions',
                             on_delete=models.CASCADE,)
