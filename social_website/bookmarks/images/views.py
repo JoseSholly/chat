@@ -9,6 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, \
                                   PageNotAnInteger
 from .forms import ImageCreateForm
 from .models import Image
+from actions.utils import create_action
 
 
 @login_required
@@ -23,6 +24,7 @@ def image_created(request):
             # assign current user to the item
             new_image.user = request.user
             new_image.save()
+            create_action(request.user, 'bookmarked image', )
             messages.success(request, 'Image added successfully')
             # redirect to new created image detail view
             return redirect(new_image.get_absolute_url())
