@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.http import HttpResponse
 from django.core.paginator import Paginator, EmptyPage, \
-                                  PageNotAnInteger
+    PageNotAnInteger
 from .forms import ImageCreateForm
 from .models import Image
 from actions.utils import create_action
@@ -24,7 +24,7 @@ def image_created(request):
             # assign current user to the item
             new_image.user = request.user
             new_image.save()
-            create_action(request.user, 'bookmarked image', )
+            create_action(request.user, 'bookmarked image', new_image)
             messages.success(request, 'Image added successfully')
             # redirect to new created image detail view
             return redirect(new_image.get_absolute_url())
@@ -63,6 +63,8 @@ def image_like(request):
     return JsonResponse({'status': 'error'})
 
 #  Image list view
+
+
 @login_required
 def image_list(request):
     images = Image.objects.all()
@@ -88,5 +90,5 @@ def image_list(request):
                        'images': images})
     return render(request,
                   'images/image/list.html',
-                   {'section': 'images',
-                    'images': images})
+                  {'section': 'images',
+                   'images': images})
